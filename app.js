@@ -1,5 +1,5 @@
 
-const gameHeight = innerHeight *0.9; //600
+const gameHeight = innerHeight; //600
 const gameWidth = gameHeight/2;
 
 const pipeWidth = gameWidth/6;
@@ -252,7 +252,11 @@ async function initialize(){
             birdJump(bird);
         })
 
-        requestAnimationFrame((t) => gameLoop(t,bird, pipes, score));
+        requestAnimationFrame((t) => 
+            {   
+                lastTime = t;
+                gameLoop(t,bird, pipes, score);
+            });
     } catch (error) {
         console.error("Critical error during loading", error);
     }

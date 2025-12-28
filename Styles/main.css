@@ -1,0 +1,129 @@
+/* Import de la police "Press Start 2P" pour le look 8-bit */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+    --sky-blue: #1F0318;
+    --btn-orange: #7F534B;
+    --btn-orange-hover:#4D332D;
+    --btn-shadow: #1E1A1D;
+    --text-white: white;
+    --text-outline: #1E1A1D;
+}
+
+
+* {
+    box-sizing: border-box;
+    user-select: none; /* Empêche la sélection de texte pendant le jeu */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--sky-blue);
+    font-family: 'Press Start 2P', cursive; /* Police pixelisée */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Empêche le scroll si le canvas est trop grand */
+}
+
+/* Titre du jeu */
+.title {
+    font-size: 4rem;
+    color: var(--text-white);
+    /* Ombre portée pour simuler un contour noir (stroke) */
+    text-shadow: 
+        4px 4px 0px var(--text-outline),
+        -2px -2px 0px var(--text-outline);
+    margin-bottom: 50px;
+    letter-spacing: -2px;
+    animation: float 2s ease-in-out infinite; /* Petite animation de flottement */
+}
+
+/* Style des boutons (Play & Parameters) */
+button {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2rem;
+    color: var(--text-white);
+    background-color: var(--btn-orange);
+    border: 4px solid var(--text-white);
+    padding: 15px 30px;
+    margin: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 6px 0 var(--btn-shadow); /* Effet 3D du bouton */
+    transition: all 0.1s;
+    outline: none;
+    min-width: 200px;
+}
+
+/* Effet "clic" sur le bouton */
+button:active {
+    box-shadow: 0 0 0 var(--btn-shadow);
+    transform: translateY(6px);
+}
+
+button:hover {
+    background-color: var(--btn-orange-hover); /* Légèrement plus clair au survol */
+}
+
+/* Le Canvas du jeu */
+#game {
+    border: 4px solid var(--text-outline);
+    background-color: var(--sky-blue);
+    box-shadow: 10px 10px 0 rgba(0,0,0,0.2);
+    /* Lissage pixelisé pour garder les graphismes nets */
+    image-rendering: pixelated; 
+}
+
+
+/* Animation optionnelle pour le titre */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.best-score-container {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2rem; /* Assez gros pour être lu, plus petit que le titre */
+    color: var(--text-white);
+    margin-bottom: 30px; /* Espace avant les boutons */
+    
+    /* Contour noir pour la lisibilité */
+    text-shadow: 
+        1px 1px 0px var(--text-outline),
+        -1px -1px 0px var(--text-outline);
+        
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Optionnel : couleur dorée pour le chiffre du score pour le mettre en valeur */
+#highScoreValue {
+    color: #f1c40f; 
+    text-shadow: 
+        1px 1px 0px #b7950b, /* Ombre dorée foncée */
+        -1px -1px 0px var(--text-outline);
+}
+
+.author {
+    position: fixed; /* Reste fixe même si la page bouge (bien que l'overflow soit hidden ici) */
+    bottom: 15px;
+    right: 20px; /* Aligné à droite, ça fait plus "signature" */
+    
+    font-size: 0.7rem; /* Plus petit que le reste */
+    color: var(--text-white);
+    
+    /* Petit contour noir pour la lisibilité sur le ciel bleu */
+    text-shadow: 
+        1px 1px 0px var(--text-outline), 
+        -1px -1px 0px var(--text-outline);
+        
+    opacity: 0.8; /* Légère transparence pour ne pas trop attirer l'œil */
+    font-family: 'Press Start 2P', cursive;
+    letter-spacing: 1px;
+}

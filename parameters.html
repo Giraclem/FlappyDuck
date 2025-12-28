@@ -1,0 +1,80 @@
+<div id="parameters_form">
+    <form action="#" method="post">
+        <fieldset>
+            <legend>Paramètres Géométriques</legend>
+
+            <div>
+            <label for="pipeWidth">Largeur des tuyaux</label>
+            <input type="number" id="pipeWidth" name="pipeWidth" step="any" value="0.16">
+            </div>
+
+            <div>
+            <label for="distanceBetweenPipe">Distance entre tuyaux</label>
+            <input type="number" id="distanceBetweenPipe" name="distanceBetweenPipe" step="any"value="0.66">
+            </div>
+
+            <div>
+            <label for="pipeGapRatio">Espace entre tuyaux</label>
+            <input type="number" id="pipeGapRatio" name="pipeGapRatio" step="0.01" value="0.25">
+            </div>
+
+            <div>
+            <label for="pipeHeightMinRatio">Hauteur minimum des tuyaux </label>
+            <input type="number" id="pipeHeightMinRatio" name="pipeHeightMinRatio" step="0.01" value="0.20">
+            </div>
+
+            <div>
+            <label for="pipeHeightMaxRatio">Hauteur maximum des tuyaux</label>
+            <input type="number" id="pipeHeightMaxRatio" name="pipeHeightMaxRatio" step="0.01" value="0.30">
+            </div>
+
+            <div>
+            <label for="birdSizeX">Largeur de l'oiseau </label>
+            <input type="number" id="birdSizeX" name="birdSizeX" step="any" value="0.12">
+            </div>
+
+            <div>
+            <label for="birdSizeY">Hauteur de l'oiseau</label>
+            <input type="number" id="birdSizeY" name="birdSizeY" step="any" value="0.75">
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Paramètres Physiques</legend>
+
+            <div>
+            <label for="groundTolerance">Tolérance du sol</label>
+            <input type="number" id="groundTolerance" name="groundTolerance" step="any" value="-0.1">
+            </div>
+
+            <div>
+            <label for="pipeInitialRate">Vitesse initiale des tuyaux</label>
+            <input type="number" id="pipeInitialRate" name="pipeInitialRate" step="any" value="0.80"> 
+            </div>
+
+            <div>
+            <label for="timeIncreasingFactor">Facteur d'accélération</label>
+            <input type="number" id="timeIncreasingFactor" name="timeIncreasingFactor" step="any" value="0.10">
+            </div>
+
+            <div>
+            <label for="gravity">Force de gravité</label>
+            <input type="number" id="gravity" name="gravity" step="any" value="0.20">
+            </div>
+
+            <div>
+            <label for="jumpStrengh">Force du saut</label>
+            <input type="number" id="jumpStrengh" name="jumpStrengh" step="any" value="5.00">
+            </div>
+
+            <div>
+            <label for="terminalVelocity">Vitesse terminale</label>
+            <input type="number" id="terminalVelocity" name="terminalVelocity" step="any" value="-5.00">
+            </div>
+        </fieldset>
+        
+    </form>
+    <div class="parameter-submit-buttons">
+        <button id="parameters-save"> Save </button>
+        <button id="parameters-cancel"> Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+#parameters_form {
+    /* Positionnement centré absolu */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+
+    /* Dimensions et Scroll */
+    width: 90%;
+    max-width: 550px;
+    max-height: 85vh; /* Empêche de sortir de l'écran */
+    display: flex;
+    flex-direction: column;
+
+    /* Style Visuel */
+    background-color: var(--btn-orange);
+    border: 4px solid var(--text-white);
+    border-radius: 20px; /* Un peu moins rond pour faire "fenêtre de jeu" */
+    box-shadow: 
+        10px 10px 0 var(--btn-shadow),
+        0 0 0 100vw rgba(0,0,0,0.5); /* Assombrit l'arrière plan du jeu */
+    
+    /* On retire le padding global pour gérer le scroll interne */
+    overflow: hidden; 
+}
+
+/* --- ZONE DE CONTENU SCROLLABLE --- */
+#parameters_form form {
+    overflow-y: auto; /* Barre de défilement si nécessaire */
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    /* Style de la scrollbar (Webkit/Chrome) pour matcher le thème */
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-white) var(--btn-orange-hover);
+}
+
+/* Customisation de la scrollbar pour Chrome/Safari */
+#parameters_form form::-webkit-scrollbar {
+    width: 12px;
+}
+#parameters_form form::-webkit-scrollbar-track {
+    background: var(--btn-orange-hover);
+}
+#parameters_form form::-webkit-scrollbar-thumb {
+    background-color: var(--text-white);
+    border: 3px solid var(--btn-orange-hover);
+    border-radius: 10px;
+}
+
+/* --- FIELDSETS (GROUPES) --- */
+#parameters_form fieldset {
+    margin: 0;
+    padding: 15px;
+    border: 3px solid rgba(255, 255, 255, 0.3); /* Bordure subtile */
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.1); /* Fond légèrement plus foncé */
+}
+
+#parameters_form legend {
+    color: #f1c40f; /* Couleur dorée (comme le score) */
+    font-size: 0.8rem;
+    padding: 0 10px;
+    text-shadow: 1px 1px 0 var(--btn-shadow);
+    text-transform: uppercase;
+}
+
+/* --- LIGNES DU FORMULAIRE (La correction est ici) --- */
+#parameters_form fieldset div {
+    display: grid;
+    /* On donne plus de place à l'input (80px) pour le confort */
+    grid-template-columns: 1fr 90px; 
+    grid-column-gap: 15px;
+    align-items: center; /* Aligne verticalement le texte et l'input */
+    margin-bottom: 12px;
+}
+
+/* --- TEXTE DES LABELS --- */
+#parameters_form label {
+    font-size: 0.7rem; /* Texte un peu plus fin pour tout faire rentrer */
+    line-height: 1.4;
+    color: var(--text-white);
+    text-shadow: 1px 1px 0 var(--btn-shadow);
+    cursor: pointer;
+}
+
+/* --- INPUTS --- */
+#parameters_form input {
+    width: 100%;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7rem;
+    padding: 8px 5px;
+    text-align: center;
+    
+    background-color: var(--text-white);
+    border: 3px solid var(--btn-shadow);
+    border-radius: 0; /* Carré pour le style pixel */
+    color: var(--sky-blue);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+/* Effet quand on clique dans l'input */
+#parameters_form input:focus {
+    border-color: #f1c40f; /* Bordure dorée au focus */
+    background-color: #fffbe6;
+}
+
+/* --- ZONE DES BOUTONS (FOOTER FIXE) --- */
+.parameter-submit-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px; /* Espace entre les boutons */
+    padding: 20px;
+    background-color: var(--btn-orange); /* Cache le contenu qui scrolle dessous */
+    border-top: 4px solid var(--text-white); /* Séparation visuelle */
+    z-index: 10;
+}
+
+/* Surcharge spécifique pour les boutons de la modale */
+.parameter-submit-buttons button {
+    margin: 0; /* On retire les marges par défaut des boutons */
+    min-width: 0; /* Important pour le grid */
+    font-size: 0.9rem;
+    padding: 12px 0;
+}
+
+/* Bouton Cancel spécifique (optionnel : couleur différente ?) */
+.parameter-submit-buttons button:last-child {
+    background-color: #a83f3f; /* Un rouge brique pour "Annuler" */
+}
+.parameter-submit-buttons button:last-child:hover {
+    background-color: #822b2b;
+}

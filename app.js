@@ -12,8 +12,10 @@ const pipeHeightMaxRatio = 0.3;
 const birdSizeX = gameWidth/8;
 const birdSizeY = birdSizeX*3/4;
 
+const groundTolerance = -0.1;
+
 const FIXED_STEP = 1 / 60; //Updating physics
-const pipeInitialRate = 1;
+const pipeInitialRate = 0.8 *gameWidth/300;
 const timeIncreasingFactor = 0.1;
 const gravity = -0.2 * gameHeight/600;
 const jumpStrengh = 5 * gameHeight/600;
@@ -149,13 +151,9 @@ function updatePipe(pipeToUpdate, pipes, timeMultiplier){
 
 function updateBird(bird){
     bird.velocity += gravity
-    if (bird.posY > 0){
-        bird.posY += bird.velocity;
-        if (bird.velocity <= terminalVelocity){
-            bird.velocity = terminalVelocity;
-        }
-    } else {
-        bird.posY = 0;
+    bird.posY += bird.velocity;
+    if (bird.velocity <= terminalVelocity){
+        bird.velocity = terminalVelocity;
     }
 }
 
@@ -191,7 +189,9 @@ function gameLoop(timestamp, bird, pipes, score){
     updateCanva(bird, pipes,score);
 
     // Checking end-game condition
-    if (doesBirdCollide(bird, pipes)){
+
+    //Bird collide with pipe or go under the map
+    if (doesBirdCollide(bird, pipes) || bird.posY<groundTolerance*gameHeight){
         finishGame(score);
         return
     } else {

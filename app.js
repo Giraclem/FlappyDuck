@@ -4,15 +4,20 @@ const gameWidth = gameHeight/2;
 
 const pipeWidth = gameWidth/6;
 const distanceBetweenPipe = gameWidth*2/3;
+
 const pipeGapRatio = 0.25;
 const pipeHeightMinRatio = 0.2;
 const pipeHeightMaxRatio = 0.3;
+
 const birdSizeX = gameWidth/8;
 const birdSizeY = birdSizeX*3/4;
 
-const gravity = -0.009 * gameHeight/600;
-const jumpStrengh = 1 * gameHeight/600;
-const terminalVelocity = -3 * gameHeight/600;
+const FIXED_STEP = 1 / 60; //Updating physics
+const pipeInitialRate = 1;
+const timeIncreasingFactor = 0.1;
+const gravity = -0.2 * gameHeight/600;
+const jumpStrengh = 5 * gameHeight/600;
+const terminalVelocity = -5 * gameHeight/600;
 
 let maxScore = 0;
 
@@ -118,7 +123,7 @@ function updateScore(bird, pipes, score){
 
 function updatePipe(pipeToUpdate, pipes, timeMultiplier){
     
-    let pipeMovementRate = 0.5*timeMultiplier; // Rate in pixel by frame
+    let pipeMovementRate = pipeInitialRate*timeMultiplier; // Rate in pixel by frame
     pipeToUpdate.posX += pipeMovementRate; // Pipe move in uniform movement with constant rate
 
     if (pipeToUpdate.posX > gameWidth){
@@ -136,8 +141,8 @@ function updatePipe(pipeToUpdate, pipes, timeMultiplier){
         }
         
         pipeToUpdate.passed = false;
-        pipeToUpdate.gap = 0.25*gameHeight;
-        pipeToUpdate.height = Math.floor(Math.random() * (0.3*gameHeight) + 0.2*gameHeight);
+        pipeToUpdate.gap = pipeGapRatio*gameHeight;
+        pipeToUpdate.height = Math.floor(Math.random() * (pipeHeightMaxRatio*gameHeight) + pipeHeightMinRatio*gameHeight);
     }
 
 }
@@ -154,25 +159,43 @@ function updateBird(bird){
     }
 }
 
-function gameLoop(bird, pipes, score){
-
-    let timeMultiplier = 1/2 + (score/20);
+function updatePhysics(bird, pipes,score){
+    let timeMultiplier = 1 + (score * timeIncreasingFactor);
 
     // Update pipe position
     for (const pipe of pipes){
         updatePipe(pipe, pipes, timeMultiplier);
     }
 
+    // Update bird position
     updateBird(bird);
+}
+
+let accumulator = 0;
+let lastTime = 0;
+
+function gameLoop(timestamp, bird, pipes, score){
+
+    let deltaTime = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+
+    accumulator += deltaTime;
+
+    while (accumulator >= FIXED_STEP) {
+        updatePhysics(bird, pipes,score);
+        accumulator -= FIXED_STEP;
+    }
 
     score = updateScore(bird, pipes, score);
+
     updateCanva(bird, pipes,score);
 
+    // Checking end-game condition
     if (doesBirdCollide(bird, pipes)){
         finishGame(score);
         return
     } else {
-        requestAnimationFrame(() => gameLoop(bird, pipes, score));
+        requestAnimationFrame((t) => gameLoop(t,bird, pipes, score));
     }
 }
 
@@ -205,7 +228,7 @@ async function initialize(){
 
         let bird = {
             posX : gameWidth/2 - birdSizeX/2,
-            posY : gameHeight/2 - birdSizeY/2,
+            posY : gameHeight*3/4 - birdSizeY/2,
             width : birdSizeX,
             height : birdSizeY,
             velocity : 0
@@ -229,7 +252,7 @@ async function initialize(){
             birdJump(bird);
         })
 
-        requestAnimationFrame(() => gameLoop(bird, pipes, score));
+        requestAnimationFrame((t) => gameLoop(t,bird, pipes, score));
     } catch (error) {
         console.error("Critical error during loading", error);
     }

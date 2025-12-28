@@ -263,10 +263,24 @@ async function initialize(){
     
 }
 
+function finishGame(score){
+
+    if (score >= maxScore){
+        maxScore = score;
+        highestScoreValueEl.innerText = score;
+    }
+
+    canvasEl.hidden = true;
+
+    playBtnEl.hidden = false;
+    parBtnEl.hidden = false;
+    titleEl.hidden = false;
+    scoreEl.hidden = false;
+    authorEl.hidden = false;
+}
 
 // User interface
 const playBtnEl = document.getElementById("start_game");
-const parBtnEl = document.getElementById("parameters");
 const titleEl = document.querySelector(".title");
 const scoreEl = document.querySelector(".best-score-container");
 const authorEl = document.querySelector(".author");
@@ -283,18 +297,46 @@ playBtnEl.addEventListener("click", ()=>{
     initialize();
 })
 
-function finishGame(score){
+// Parameters
 
-    if (score >= maxScore){
-        maxScore = score;
-        highestScoreValueEl.innerText = score;
+async function openParameters(){
+    if (document.getElementById('parameters_form')) return; //If parameters is already open don't need to go further
+
+    try {
+        const answer = await fetch("parameters.html");
+        if (!answer.ok) throw new Error("Can't load parameters");
+
+        const parametershtml = await answer.text();
+
+        document.body.insertAdjacentHTML("beforeend",parametershtml)
+
+        initParametersBtn();
+
+    } catch {
+        console.error("Error occured during loading of parameters")
     }
-
-    canvasEl.hidden = true;
-
-    playBtnEl.hidden = false;
-    parBtnEl.hidden = false;
-    titleEl.hidden = false;
-    scoreEl.hidden = false;
-    authorEl.hidden = false;
+    
 }
+
+const parBtnEl = document.getElementById("parameters");
+
+parBtnEl.addEventListener("click", ()=>{
+    openParameters(); //Showing parameters box
+})
+
+function initParametersBtn(){
+    const parDivEl = document.getElementById("parameters_form")
+
+    const parSaveBtnEl = document.getElementById("parameters-save");
+    const parCancelBtnEl = document.getElementById("parameters-cancel");
+
+    parSaveBtnEl.addEventListener("click", () =>{
+        document.body.removeChild(parDivEl); //Removing parameters box
+    })
+
+    parCancelBtnEl.addEventListener("click", () =>{
+        document.body.removeChild(parDivEl); //Removing parameters box
+    })
+}
+
+

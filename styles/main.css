@@ -33,6 +33,7 @@ body {
 /* Titre du jeu */
 .title {
     font-size: 4rem;
+    text-align: center;
     color: var(--text-white);
     /* Ombre portée pour simuler un contour noir (stroke) */
     text-shadow: 

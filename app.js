@@ -1,21 +1,21 @@
 
 const gameHeight = innerHeight; //600
-const gameWidth = gameHeight/2;
+const gameWidth = innerWidth;//gameHeight/2
 
-const pipeWidth = gameWidth/6;
-const distanceBetweenPipe = gameWidth*2/3;
+const pipeWidth = gameHeight/12; // gameWidth/6
+const distanceBetweenPipe = gameHeight*1/3; // gameWidth*2/3
 
 const pipeGapRatio = 0.25;
 const pipeHeightMinRatio = 0.2;
 const pipeHeightMaxRatio = 0.3;
 
-const birdSizeX = gameWidth/8;
+const birdSizeX = gameHeight/16; // gameWidth/8
 const birdSizeY = birdSizeX*3/4;
 
 const groundTolerance = -0.1;
 
 const FIXED_STEP = 1 / 60; //Updating physics
-const pipeInitialRate = 0.8 *gameWidth/300;
+const pipeInitialRate = 0.8 *gameHeight/600; // 0.8 *gameWidth/300
 const timeIncreasingFactor = 0.1;
 const gravity = -0.2 * gameHeight/600;
 const jumpStrengh = 5 * gameHeight/600;
@@ -34,24 +34,24 @@ function updateCanva(bird,pipes,score){
 
     ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
-    // Define background
-
-    //ctx.fillStyle = "#cfecf7";
-    //ctx.fillRect(0,0, gameWidth,gameHeight);
-    ctx.drawImage(GameAssets.background, 0, 0, gameWidth, gameHeight)
+    // Drawing background (repeating the same image to fill the width)
+    
+    const backgroundRatioWH = 5/7; //Depend on the background image (here:1000x1400 so 5/7)
+    let repeat = gameWidth/(backgroundRatioWH *gameHeight);
+    for (let i=0; i<repeat;i++){
+        ctx.drawImage(GameAssets.background, i*backgroundRatioWH*gameHeight +5, 0, backgroundRatioWH *gameHeight, gameHeight)
+    }
 
     // Drawing pipes
 
     for (const pipe of pipes){
-        ctx.fillStyle = "#32CD32";
 
         let pipeheadSize = 30;
-        // Lower pipe
 
+        // Lower pipe
         let canvaX = gameWidth - pipe.posX - pipe.width;
         let canvaY = gameHeight - pipe.height;
         
-        //ctx.fillRect(canvaX, canvaY , pipe.width,pipe.height);
         ctx.drawImage(GameAssets.pipebody, canvaX, canvaY, pipe.width, pipe.height)
 
         ctx.save();
@@ -61,12 +61,10 @@ function updateCanva(bird,pipes,score){
         ctx.restore();
 
         // Upper pipe
-
         canvaX = gameWidth - pipe.posX - pipe.width;
         canvaY = 0;
         let upperPipeHeight = gameHeight - pipe.height - pipe.gap;
 
-        //ctx.fillRect(canvaX, canvaY , pipe.width , upperPipeHeight);
         ctx.drawImage(GameAssets.pipebody, canvaX, canvaY, pipe.width, upperPipeHeight)
         ctx.drawImage(GameAssets.pipehead, canvaX, upperPipeHeight-pipeheadSize, pipe.width,pipeheadSize)
     }
@@ -75,9 +73,6 @@ function updateCanva(bird,pipes,score){
 
     let canvaX = gameWidth - bird.posX - bird.width;
     let canvaY = gameHeight - bird.posY - bird.height;
-
-    //ctx.fillStyle = "red";
-    //ctx.fillRect(canvaX, canvaY, bird.width, bird.height);
     ctx.drawImage(GameAssets.bird, canvaX, canvaY, bird.width, bird.height)
 
     // Drawing score
@@ -235,7 +230,7 @@ async function initialize(){
         };
 
         let pipes = [];
-        let numberOfPipes = Math.floor(((gameWidth+distanceBetweenPipe) / (distanceBetweenPipe+ pipeWidth))+1);
+        let numberOfPipes = Math.floor(((gameWidth+distanceBetweenPipe) / (distanceBetweenPipe+ pipeWidth))+1)+1;
         for (let i=0;i<numberOfPipes;i++){
             pipes.push({
                 posX : -pipeWidth - (distanceBetweenPipe)*i, 

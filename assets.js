@@ -3,8 +3,11 @@ export const GameAssets = {
   background: null,
   pipebody: null,
   pipehead: null,
+  SFXjumping: null,
+  SFXscoring: null,
+  SFXdie: null,
   
   isReady() {
-    return this.bird && this.background && this.pipe;
+    return this.bird && this.background && this.pipebody && this.pipehead;
   }
 };

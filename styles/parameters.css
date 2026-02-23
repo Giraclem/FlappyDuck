@@ -53,6 +53,7 @@
 
 /* --- FIELDSETS (GROUPES) --- */
 #parameters_form fieldset {
+    min-width: 0;
     margin: 0;
     padding: 15px;
     border: 3px solid rgba(255, 255, 255, 0.3); /* Bordure subtile */
@@ -72,7 +73,7 @@
 #parameters_form fieldset div {
     display: grid;
     /* On donne plus de place à l'input (80px) pour le confort */
-    grid-template-columns: 1fr 90px; 
+    grid-template-columns: 1fr 170px; 
     grid-column-gap: 15px;
     align-items: center; /* Aligne verticalement le texte et l'input */
     margin-bottom: 12px;
@@ -85,6 +86,8 @@
     color: var(--text-white);
     text-shadow: 1px 1px 0 var(--btn-shadow);
     cursor: pointer;
+    overflow: hidden;
+    text-align: center;
 }
 
 /* --- INPUTS --- */
@@ -125,7 +128,6 @@
     margin: 0; /* On retire les marges par défaut des boutons */
     min-width: 0; /* Important pour le grid */
     font-size: 0.9rem;
-    padding: 12px 0;
 }
 
 /* Bouton Cancel spécifique (optionnel : couleur différente ?) */
@@ -134,4 +136,17 @@
 }
 .parameter-submit-buttons button:last-child:hover {
     background-color: #822b2b;
+}
+
+#parameters_form .stepper{
+    display:flex;
+}
+
+#parameters_form .modifyBtn{
+    display:block;
+    padding:0px;
+    min-width:30px;
+    border:2px solid var(--text-white);
+    box-shadow: 0 3px 0 var(--btn-shadow);
+    margin:0;
 }

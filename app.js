@@ -1,28 +1,43 @@
 
-const gameHeight = innerHeight; //600
-const gameWidth = innerWidth;//gameHeight/2
-
-const pipeWidth = gameHeight/12; // gameWidth/6
-const distanceBetweenPipe = gameHeight*1/3; // gameWidth*2/3
-
-const pipeGapRatio = 0.25;
-const pipeHeightMinRatio = 0.2;
-const pipeHeightMaxRatio = 0.3;
-
-const birdSizeX = gameHeight/16; // gameWidth/8
-const birdSizeY = birdSizeX*3/4;
-
-const groundTolerance = -0.1;
-
+let gameHeight=innerHeight;
+let gameWidth=innerWidth;
 const FIXED_STEP = 1 / 60; //Updating physics
-const pipeInitialRate = 0.8 *gameHeight/600; // 0.8 *gameWidth/300
-const timeIncreasingFactor = 0.1;
-const gravity = -0.2 * gameHeight/600;
-const jumpStrengh = 5 * gameHeight/600;
-const terminalVelocity = -5 * gameHeight/600;
 
-let maxScore = 0;
+const parameters = {
+    pipeWidth:null,
+    distanceBetweenPipe:null,
+    pipeGapRatio:null,
+    pipeHeightMinRatio:null,
+    pipeHeightMaxRatio:null,
+    birdSizeX:null,
+    birdSizeY:null,
+    groundTolerance:null,
+    pipeInitialRate:null,
+    timeIncreasingFactor:null,
+    gravity:null,
+    jumpStrengh:null,
+    terminalVelocity:null,
 
+    setDefault(){
+        this.pipeWidth=gameHeight*0.08;
+        this.distanceBetweenPipe=gameHeight*0.33;
+        this.pipeGapRatio=0.25;
+        this.pipeHeightMinRatio=0.2;
+        this.pipeHeightMaxRatio=0.3;
+        this.birdSizeX=gameHeight*0.06;
+        this.birdSizeY=gameHeight*0.045;
+        this.groundTolerance=0.1;
+        this.pipeInitialRate=gameHeight*0.0013;
+        this.timeIncreasingFactor= 0.1;
+        this.gravity=-gameHeight*0.00033;
+        this.jumpStrengh=gameHeight*0.0083;
+        this.terminalVelocity=-gameHeight*0.0083;
+    }
+};
+
+parameters.setDefault();
+
+// Loading assets (images and sounds)
 import { GameAssets } from './assets.js';
 
 // ---- Utilities
@@ -56,15 +71,9 @@ function playSound(audioEl){
     }
 }
 
-// Loading assets (images and sounds)
-
-
-
 // ---- Game display
 
 const canvasEl = document.getElementById('game');
-canvasEl.width = gameWidth;
-canvasEl.height = gameHeight;
 const ctx = canvasEl.getContext("2d");
 
 // Update display of the game's canva depending on game state
@@ -77,34 +86,34 @@ function updateCanva(bird,pipes,score){
     const backgroundRatioWH = 5/7; //Depend on the background image (here:1000x1400 so 5/7)
     let repeat = gameWidth/(backgroundRatioWH *gameHeight);
     for (let i=0; i<repeat;i++){
-        ctx.drawImage(GameAssets.background, i*backgroundRatioWH*gameHeight, 0, backgroundRatioWH *gameHeight, gameHeight)
+        ctx.drawImage(GameAssets.background, Math.floor(i*backgroundRatioWH*gameHeight), 0, Math.floor(backgroundRatioWH *gameHeight), gameHeight);
     }
 
     // Drawing pipes
 
     for (const pipe of pipes){
 
-        let pipeheadSize = 30;
+        let pipeheadSize = Math.floor(pipe.width/2); //? should i keep that?
 
         // Lower pipe
-        let canvaX = gameWidth - pipe.posX - pipe.width;
-        let canvaY = gameHeight - pipe.height;
+        let canvaX =  Math.floor(gameWidth - pipe.posX - pipe.width); // Math floor solve pipe "shaking" because of decimal coords
+        let canvaY =  Math.floor(gameHeight - pipe.height);
         
-        ctx.drawImage(GameAssets.pipebody, canvaX, canvaY, pipe.width, pipe.height)
+        ctx.drawImage(GameAssets.pipebody, canvaX, canvaY, Math.floor(pipe.width), Math.floor(pipe.height))
 
         ctx.save();
-        ctx.translate(canvaX, canvaY+pipeheadSize);
-        ctx.scale(1,-1)
-        ctx.drawImage(GameAssets.pipehead, 0, 0, pipe.width, pipeheadSize)
+        ctx.translate(canvaX, Math.floor(canvaY+pipeheadSize));
+        ctx.scale(1,-1);
+        ctx.drawImage(GameAssets.pipehead, 0, 0, Math.floor(pipe.width), Math.floor(pipeheadSize));
         ctx.restore();
 
         // Upper pipe
-        canvaX = gameWidth - pipe.posX - pipe.width;
+        canvaX =  Math.floor(gameWidth - pipe.posX - pipe.width);
         canvaY = 0;
-        let upperPipeHeight = gameHeight - pipe.height - pipe.gap;
+        let upperPipeHeight =  Math.floor(gameHeight - pipe.height - pipe.gap);
 
-        ctx.drawImage(GameAssets.pipebody, canvaX, canvaY, pipe.width, upperPipeHeight)
-        ctx.drawImage(GameAssets.pipehead, canvaX, upperPipeHeight-pipeheadSize, pipe.width,pipeheadSize)
+        ctx.drawImage(GameAssets.pipebody, canvaX, canvaY,  Math.floor(pipe.width),  Math.floor(upperPipeHeight));
+        ctx.drawImage(GameAssets.pipehead, canvaX, Math.floor(upperPipeHeight-pipeheadSize),Math.floor(pipe.width),Math.floor(pipeheadSize));
     }
 
     // Drawing bird
@@ -172,7 +181,7 @@ function checkScore(bird, pipes, score){
 // Update a pipe's position according to its movement and refresh it after getting out of the screen (size updated randomly) 
 function updatePipe(pipeToUpdate, pipes, timeMultiplier){
     
-    let pipeMovementRate = pipeInitialRate*timeMultiplier; // Rate in pixel by frame
+    let pipeMovementRate = parameters.pipeInitialRate*timeMultiplier; // Rate in pixel by frame
     pipeToUpdate.posX += pipeMovementRate; // Pipe move in uniform movement with constant rate
 
     // If the pipe get out of the screen, move it to the begining and change its sizes randomly
@@ -185,36 +194,36 @@ function updatePipe(pipeToUpdate, pipes, timeMultiplier){
                     lastPipePosition = pipe.posX;
                 }
             }
-            pipeToUpdate.posX = lastPipePosition - distanceBetweenPipe;
+            pipeToUpdate.posX = lastPipePosition - parameters.distanceBetweenPipe;
         } else {
             pipeToUpdate.posX = -pipeToUpdate.width;
         }
         
         // Changing randomly the pipe's property
         pipeToUpdate.passed = false;
-        pipeToUpdate.gap = pipeGapRatio*gameHeight;
-        pipeToUpdate.height = Math.floor(Math.random() * (pipeHeightMaxRatio*gameHeight) + pipeHeightMinRatio*gameHeight);
+        pipeToUpdate.gap = parameters.pipeGapRatio*gameHeight;
+        pipeToUpdate.height = Math.floor(Math.random() * (parameters.pipeHeightMaxRatio*gameHeight) + parameters.pipeHeightMinRatio*gameHeight);
     }
 
 }
 
 // Update bird's position according to its movement
 function updateBird(bird){
-    bird.velocity += gravity
+    bird.velocity += parameters.gravity
     bird.posY += bird.velocity;
-    if (bird.velocity <= terminalVelocity){
-        bird.velocity = terminalVelocity;
+    if (bird.velocity <= parameters.terminalVelocity){
+        bird.velocity = parameters.terminalVelocity;
     }
 }
 
 // Update bird's velocity when user want to jump
 function updateBirdVelocity(bird){
-    bird.velocity = jumpStrengh;
+    bird.velocity = parameters.jumpStrengh;
 }
 
 // Update game's object position according to their movement
 function updatePhysics(bird, pipes,score){
-    let timeMultiplier = 1 + (score * timeIncreasingFactor); // ? move time multiplier in pipe update function ?
+    let timeMultiplier = 1 + (score * parameters.timeIncreasingFactor); // ? move time multiplier in pipe update function ?
 
     // Update pipe position
     for (const pipe of pipes){
@@ -232,7 +241,7 @@ function birdJump(bird){
 }
 
 function shouldGameFinish(bird, pipes){
-    return doesBirdCollide(bird, pipes) || bird.posY<groundTolerance*gameHeight;
+    return doesBirdCollide(bird, pipes) || bird.posY<-parameters.groundTolerance*gameHeight;
 }
 
 // ---- Game Management
@@ -254,6 +263,14 @@ function launchGame(){
 
 // Launch the game by creating game's object and user interactions, and start displaying
 async function initialize(){
+
+    //Update parameters and canva's size depending on user'device
+    gameWidth = innerWidth;
+    gameHeight = innerHeight;
+    //parameters.setDefault();
+    canvasEl.width = gameWidth;
+    canvasEl.height = gameHeight;
+
     try {
         const imgSrc = [    "./assets/Image/flappybird.png",
                             "./assets/Image/background.jpg",
@@ -277,21 +294,21 @@ async function initialize(){
         GameAssets.SFXdie = loadedSounds[2];
 
         let bird = {
-            posX : gameWidth/2 - birdSizeX/2,
-            posY : gameHeight*3/4 - birdSizeY/2,
-            width : birdSizeX,
-            height : birdSizeY,
+            posX : gameWidth/2 - parameters.birdSizeX/2,
+            posY : gameHeight*3/4 - parameters.birdSizeY/2,
+            width : parameters.birdSizeX,
+            height : parameters.birdSizeY,
             velocity : 0
         };
 
         let pipes = [];
-        let numberOfPipes = Math.floor(((gameWidth+distanceBetweenPipe) / (distanceBetweenPipe+ pipeWidth))+1)+1;
+        let numberOfPipes = Math.floor(((gameWidth+parameters.distanceBetweenPipe) / (parameters.distanceBetweenPipe+ parameters.pipeWidth))+1)+1;
         for (let i=0;i<numberOfPipes;i++){
             pipes.push({
-                posX : -pipeWidth - (distanceBetweenPipe)*i, 
-                width: pipeWidth,
-                gap : pipeGapRatio*gameHeight,
-                height : Math.floor(Math.random() * (pipeHeightMaxRatio*gameHeight) + pipeHeightMinRatio*gameHeight),
+                posX : -parameters.pipeWidth - (parameters.distanceBetweenPipe)*i, 
+                width: parameters.pipeWidth,
+                gap : parameters.pipeGapRatio*gameHeight,
+                height : Math.floor(Math.random() * (parameters.pipeHeightMaxRatio*gameHeight) + parameters.pipeHeightMinRatio*gameHeight),
                 passed : false
             })
         }
@@ -373,7 +390,8 @@ const authorEl = document.querySelector(".author");
 
 playBtnEl.addEventListener("click", launchGame)
 parBtnEl.addEventListener("click",openParameters)
-highestScoreValueEl.innerText = getHighscore()
+let maxScore = getHighscore();
+highestScoreValueEl.innerText = maxScore;
 
 // Display parameters menu (parameters.html)
 async function openParameters(){
@@ -387,6 +405,8 @@ async function openParameters(){
 
         document.body.insertAdjacentHTML("beforeend",parametershtml)
 
+        fillParametersInput(parameters);
+        bindStepperBtn();
         initParametersBtn();
 
     } catch {
@@ -394,6 +414,49 @@ async function openParameters(){
     }
     
 }
+
+// Read browsers parameters and fill the form with values
+function fillParametersInput(parameters){
+    const inputListEl = document.querySelectorAll("#parameters_form input")
+    for (const inputEl of inputListEl){
+        inputEl.value = numberToString(parameters[inputEl.id]);
+    }
+}
+
+function bindStepperBtn(){
+    const btnListEl = document.querySelectorAll("#parameters_form .stepBtn")
+    for (const btnEl of btnListEl){
+        const inputEl = btnEl.parentElement.querySelector("input");
+        btnEl.addEventListener("click",(e)=>{
+            e.preventDefault()
+
+            let operationDirection = btnEl.textContent === "+" || btnEl.textContent === "-" ? Number(btnEl.textContent + "1")  : 1; //? Maybe change to detect if button is after/before input?
+
+            const currentValue = Number(inputEl.value);
+            if (!isNaN(inputEl.step)){
+                const newValue = currentValue + operationDirection*Number(inputEl.step);
+                inputEl.value = numberToString(newValue);
+                parameters[inputEl.id]+= operationDirection*Number(inputEl.step) //? Change later for cleaner method with locale storage
+            } else {
+                const newValue = currentValue + 1;
+                inputEl.value = numberToString(newValue);
+            }
+        })
+    }
+}
+
+// Convert number into string with the right number of digit
+function numberToString(value){
+    const norm = Math.abs(value);
+    if (norm < 2){
+        return value.toFixed(2);
+    } else if (norm < 10 ) {
+        return value.toFixed(1);
+    } else {
+        return value.toFixed(0);
+    }
+}
+
 // Binding events on parameters menu buttons
 function initParametersBtn(){
     const parDivEl = document.getElementById("parameters_form")

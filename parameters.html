@@ -5,65 +5,65 @@
             <legend>Geometry</legend>
 
             <div>
-                <label for="pipeWidth">Pipe Width</label>
+                <label for="pipeWidth">Pipe Width (px)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="pipeWidth" name="pipeWidth" step="any" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="pipeWidth" name="pipeWidth" step="1" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-                <label for="distanceBetweenPipe">Pipe Distance</label>
+                <label for="distanceBetweenPipe">Pipe Distance (px)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="distanceBetweenPipe" name="distanceBetweenPipe" step="any" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="distanceBetweenPipe" name="distanceBetweenPipe" step="1" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-                <label for="pipeGapRatio">Pipe Gap</label>
+                <label for="pipeGapRatio">Pipe Gap (%)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="pipeGapRatio" name="pipeGapRatio" step="0.01" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="pipeGapRatio" name="pipeGapRatio" step="0.05" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-                <label for="pipeHeightMinRatio">Pipe Min Height</label>
+                <label for="pipeHeightMinRatio">Pipe Min Height (%)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="pipeHeightMinRatio" name="pipeHeightMinRatio" step="0.01" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="pipeHeightMinRatio" name="pipeHeightMinRatio" step="0.05" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-                <label for="pipeHeightMaxRatio">Pipe Max Height</label>
+                <label for="pipeHeightMaxRatio">Pipe Max Height (%)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="pipeHeightMaxRatio" name="pipeHeightMaxRatio" step="0.01" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="pipeHeightMaxRatio" name="pipeHeightMaxRatio" step="0.05" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-                <label for="birdSizeX">Bird Width</label>
+                <label for="birdSizeX">Bird Width (px)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="birdSizeX" name="birdSizeX" step="any" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="birdSizeX" name="birdSizeX" step="1" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-                <label for="birdSizeY">Bird Height</label>
+                <label for="birdSizeY">Bird Height (px)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="birdSizeY" name="birdSizeY" step="any" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="birdSizeY" name="birdSizeY" step="1" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
         </fieldset>
@@ -71,56 +71,56 @@
             <legend>Physics</legend>
 
             <div>
-                <label for="groundTolerance">Ground Tolerance</label>
+                <label for="groundTolerance">Ground Tolerance (%)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="groundTolerance" name="groundTolerance" step="any" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="groundTolerance" name="groundTolerance" step="0.05" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-                <label for="pipeInitialRate">Pipe Rate</label>
+                <label for="pipeInitialRate">Pipe Rate (px/fr)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="pipeInitialRate" name="pipeInitialRate" step="any" readonly> 
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="pipeInitialRate" name="pipeInitialRate" step="0.01" readonly> 
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
                 <label for="timeIncreasingFactor">Difficulty</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="timeIncreasingFactor" name="timeIncreasingFactor" step="any" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="timeIncreasingFactor" name="timeIncreasingFactor" step="0.05" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-                <label for="gravity">Gravity Strengh</label>
+                <label for="gravity">Gravity Strengh (px/fr²)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="gravity" name="gravity" step="any" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="gravity" name="gravity" step="0.01" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-                <label for="jumpStrengh">Jump Strengh</label>
+                <label for="jumpStrengh">Jump Strengh (px/fr²)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="jumpStrengh" name="jumpStrengh" step="any" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="jumpStrengh" name="jumpStrengh" step="0.1" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
 
             <div>
-            <label for="terminalVelocity">Terminal Velocity</label>
+            <label for="terminalVelocity">Terminal Velocity (px/fr)</label>
                 <div class="stepper">
-                    <button class="modifyBtn">-</button>
-                    <input type="number" id="terminalVelocity" name="terminalVelocity" step="any" readonly>
-                    <button class="modifyBtn">+</button>
+                    <button class="stepBtn">-</button>
+                    <input type="number" id="terminalVelocity" name="terminalVelocity" step="0.1" readonly>
+                    <button class="stepBtn">+</button>
                 </div>
             </div>
         </fieldset>

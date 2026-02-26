@@ -45,7 +45,16 @@ function loadSound(url){
         audio.addEventListener("error", () => reject(new Error("Error during loading of " + url)), { once: true });
         audio.load();
     })
-} 
+}
+
+// Play a sound and if already playing, restart it
+function playSound(audioEl){
+    if (audioEl.currentTime && !audioEl.ended){
+        audioEl.currentTime=0;
+    } else  {
+        audioEl.play();
+    }
+}
 
 // Loading assets (images and sounds)
 
@@ -145,7 +154,7 @@ function updateScore(bird, pipes, score){
     const newScore = checkScore(bird, pipes, score);
     // Play scoring sound if score increased
     if (newScore > score){
-        GameAssets.SFXscoring.play();
+        playSound(GameAssets.SFXscoring);
     }
     return newScore;
 }
@@ -219,7 +228,7 @@ function updatePhysics(bird, pipes,score){
 // Called when user jump
 function birdJump(bird){
     updateBirdVelocity(bird);
-    GameAssets.SFXjumping.play();
+    playSound(GameAssets.SFXjumping);
 }
 
 function shouldGameFinish(bird, pipes){
@@ -325,7 +334,7 @@ function gameLoop(timestamp, bird, pipes, score){
 
     //Bird collide with pipe or go under the map
     if (shouldGameFinish(bird, pipes)){
-        GameAssets.SFXdie.play();
+        playSound(GameAssets.SFXdie)
         finishGame(score);
         return
     } else {
